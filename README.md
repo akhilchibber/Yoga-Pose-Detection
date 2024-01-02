@@ -31,6 +31,7 @@ These can be installed using pip (Python's package installer).
 
 ```bash
 pip install tensorflow keras matplotlib pandas numpy pillow
+```
 
 ## Target Audience
 This Github Respository, specifically the Jupyter notebook is structured to be accessible for beginners, providing detailed explanations and a step-by-step approach, while also encompassing advanced techniques for seasoned practitioners. Let's dive into the world of Yoga Pose Detection and deep learning!
