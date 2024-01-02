@@ -4,7 +4,7 @@
 </p>
 
 ## Overview
-This repository contains a Jupyter Notebook for a project focused on developing a deep learning model to classify images into different yoga poses. The project uses convolutional neural networks (CNNs) and transfer learning techniques to distinguish among various yoga poses such as the downward dog, goddess, tree, plank, and warrior poses.
+This repository contains a Jupyter Notebook for a project focused on developing a deep learning model to classify images into different yoga poses. The project uses convolutional neural networks (CNNs) and transfer learning techniques to distinguish among five yoga poses including the downward dog, goddess, tree, plank, and warrior poses.
 
 ## Dataset
 The dataset used in this project is the "Yoga Poses Dataset" from Kaggle. It contains images categorized into five classes representing different yoga poses. You can find the dataset [here](https://www.kaggle.com/datasets/niharika41298/yoga-poses-dataset/data).
