@@ -7,37 +7,22 @@
 This repository contains a Jupyter Notebook for a project focused on developing a deep learning model to classify images into different yoga poses. The project uses convolutional neural networks (CNNs) and transfer learning techniques to distinguish among five yoga poses including the downward dog, goddess, tree, plank, and warrior poses.
 
 ## Dataset
-The dataset used in this project is the "Yoga Poses Dataset" from Kaggle. It contains images categorized into five classes representing different yoga poses. You can find the dataset from [this link](https://www.kaggle.com/datasets/niharika41298/yoga-poses-dataset/data).
+The dataset used in this project is the "Yoga Poses Dataset" from Kaggle. It contains images categorized into five classes representing different yoga poses. You can find the dataset from [Yoga Poses Dataset](https://www.kaggle.com/datasets/niharika41298/yoga-poses-dataset/data).
 
 ## Pre-Trained Weights
 The model uses pre-trained weights from the Xception model. You can download the weights from [this link](https://github.com/kazenokizi/defect_classification/blob/master/xception_weights_tf_dim_ordering_tf_kernels_notop.h5). Ensure to place the downloaded weights file in the correct directory as specified in the Jupyter Notebook.
 
-## Getting Started
-To use this project, clone the repository and follow the instructions in the Jupyter Notebook. The project is structured into five main steps:
-
-1. **Data Preparation:** Data is loaded, pre-processed, and augmented to prepare it for training.
-2. **Model Building:** A deep learning model is built using the Xception architecture.
-3. **Model Training and Validation:** The model is trained and validated on the dataset.
-4. **Model Evaluation:** Performance of the model is evaluated using the test dataset.
-5. **Results and Visualization:** Training and validation results are visualized and the model is saved.
-
-## Prerequisites
-- Python 3.x
-- TensorFlow
-- Keras
-- Matplotlib
-- Pandas
-- Numpy
-- PIL (Python Imaging Library)
-
-These can be installed using pip (Python's package installer).
-
-```bash
-pip install tensorflow keras matplotlib pandas numpy pillow
-```
-
 ## Target Audience
 This Github Respository, specifically the Jupyter notebook is structured to be accessible for beginners, providing detailed explanations and a step-by-step approach, while also encompassing advanced techniques for seasoned practitioners. Let's dive into the world of Yoga Pose Detection and deep learning!
+
+## Getting Started
+To get started with this project:
+
+1. Clone this repository to your local machine.
+2. Ensure you have Jupyter Notebook installed and running.
+3. Install the required dependencies.
+4. Download the "Yoga Poses Dataset" and place it in the designated directory.
+5. Open and run the Jupyter Notebook "Yoga-Pose-Detection.ipynb" to train and evaluate the model.
 
 ## Contributing
 
