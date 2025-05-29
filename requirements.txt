@@ -1,0 +1,6 @@
+tensorflow
+Flask
+Pillow
+numpy
+matplotlib
+kaggle

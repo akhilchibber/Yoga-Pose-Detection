@@ -1,0 +1,199 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yoga Pose Detector</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        h1 {
+            color: #333;
+        }
+        #upload-form {
+            margin-bottom: 20px;
+        }
+        #image-file {
+            margin-bottom: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result-display {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 8px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+        }
+        #image-preview {
+            margin-top: 20px;
+            max-width: 100%;
+            height: auto;
+            max-height: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: none; /* Hidden by default */
+        }
+        .loader {
+            border: 5px solid #f3f3f3; /* Light grey */
+            border-top: 5px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            display: none; /* Hidden by default */
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .error-message {
+            color: red;
+            font-weight: bold;
+        }
+        .warning-message {
+            color: orange;
+            font-weight: bold;
+        }
+        .success-message {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Yoga Pose Image</h1>
+        <form id="upload-form">
+            <input type="file" id="image-file" name="image" accept="image/*" required>
+            <button type="submit">Predict Pose</button>
+        </form>
+        <div class="loader" id="loader"></div>
+        <img id="image-preview" src="#" alt="Image Preview">
+        <div id="result-display">
+            <p>Please upload an image to see the prediction.</p>
+        </div>
+    </div>
+
+    <script>
+        const uploadForm = document.getElementById('upload-form');
+        const imageFile = document.getElementById('image-file');
+        const resultDisplay = document.getElementById('result-display');
+        const imagePreview = document.getElementById('image-preview');
+        const loader = document.getElementById('loader');
+
+        imageFile.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+                resultDisplay.innerHTML = '<p>Image selected. Click "Predict Pose".</p>';
+                resultDisplay.className = ''; // Reset class
+            } else {
+                imagePreview.style.display = 'none';
+                imagePreview.src = '#';
+                resultDisplay.innerHTML = '<p>Please upload an image to see the prediction.</p>';
+            }
+        });
+
+        uploadForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const file = imageFile.files[0];
+            if (!file) {
+                resultDisplay.innerHTML = '<p class="error-message">Please select an image file.</p>';
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image', file);
+
+            resultDisplay.innerHTML = ''; // Clear previous results
+            loader.style.display = 'block'; // Show loader
+            imagePreview.style.display = 'block'; // Ensure preview is visible
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                loader.style.display = 'none'; // Hide loader
+
+                if (!response.ok) {
+                    let errorMsg = `Error: ${response.status} - ${response.statusText}`;
+                    try {
+                        const errorData = await response.json();
+                        errorMsg = `Error: ${errorData.error || response.statusText}`;
+                    } catch (e) {
+                        // If response is not JSON, use the status text
+                    }
+                    resultDisplay.innerHTML = `<p class="error-message">${errorMsg}</p>`;
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (data.error) {
+                    if (data.predicted_pose && data.confidence) { // For low confidence "irrelevant" message
+                         resultDisplay.innerHTML = `<p class="warning-message">${data.message} <br>Detected: ${data.predicted_pose} (Confidence: ${(data.confidence * 100).toFixed(2)}%)</p>`;
+                    } else {
+                        resultDisplay.innerHTML = `<p class="error-message">Error: ${data.error}</p>`;
+                    }
+                } else if (data.predicted_pose) {
+                    const confidencePercentage = (data.confidence * 100).toFixed(2);
+                    resultDisplay.innerHTML = `<p class="success-message">Predicted Pose: ${data.predicted_pose} (Confidence: ${confidencePercentage}%)</p>`;
+                } else {
+                    resultDisplay.innerHTML = `<p class="error-message">Unexpected response from server.</p>`;
+                }
+
+            } catch (error) {
+                loader.style.display = 'none'; // Hide loader
+                console.error('Fetch error:', error);
+                resultDisplay.innerHTML = `<p class="error-message">An error occurred while trying to connect to the server.</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
+```
