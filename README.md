@@ -1,4 +1,3 @@
-```markdown
 # Deep Learning based Yoga Pose Detection with Web UI
 <p align="center">
   <img src="https://github.com/akhilchibber/Yoga-Pose-Detection/blob/main/YOGA_POSE_DETECTION.jpg?raw=true" alt="Yoga Pose Detection Banner">
@@ -21,8 +20,6 @@ This repository contains a project focused on developing a deep learning model t
 *   **Handles Irrelevant Images:** If the model's confidence for a predicted pose is below 60%, it suggests the image might not be a recognized yoga pose or is unclear.
 
 ## Directory Structure
-
-```
 .
 ├── INPUT_DATASET/        # (User-created) Directory for training and test images
 │   ├── TRAIN/
