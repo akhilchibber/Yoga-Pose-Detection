@@ -20,7 +20,6 @@ This repository contains a project focused on developing a deep learning model t
 *   **Handles Irrelevant Images:** If the model's confidence for a predicted pose is below 60%, it suggests the image might not be a recognized yoga pose or is unclear.
 
 ## Directory Structure
-.
 ├── INPUT_DATASET/        # (User-created) Directory for training and test images
 │   ├── TRAIN/
 │   │   ├── downdog/
@@ -42,7 +41,6 @@ This repository contains a project focused on developing a deep learning model t
 ├── yoga_pose_model.h5    # (Generated after training) The trained Keras model
 ├── requirements.txt      # Python dependencies
 └── README.md             # This file
-```
 
 ## Setup and Running the Application
 
